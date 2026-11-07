@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PCA 노베이스 합격 노트</title>
+<meta name="description" content="클라우드를 처음 접하는 사람을 위한 Google Cloud Professional Cloud Architect 시험 준비 사이트. 로드맵, 용어, 서비스 치트시트, 연습문제.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* 레이아웃: 제도용 모눈 위에 놓인 설계도 한 장. 좌측 고정 목차 + 본문 */
+:root{
+  --paper:#eef2f7; --card:#fbfcfe; --ink:#14202e; --muted:#5a6b7d;
+  --line:#c9d3df; --blue:#2457d6; --blue-soft:#dde7fb; --mark:#f2b61f;
+  --ok:#17803d; --ok-soft:#dcf3e4; --bad:#b4271c; --bad-soft:#fbe3e0;
+  --grid:rgba(36,87,214,.07);
+  --sans:"IBM Plex Sans KR",system-ui,-apple-system,"Noto Sans KR",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root{
+  --paper:#0e1622; --card:#152133; --ink:#e6edf6; --muted:#9bacbf;
+  --line:#2a3b52; --blue:#7fa6ff; --blue-soft:#1d2f55; --mark:#f2b61f;
+  --ok:#5fd18a; --ok-soft:#14352399; --bad:#ff8c80; --bad-soft:#4a1d19aa;
+  --grid:rgba(127,166,255,.07); color-scheme:dark;}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.7 var(--sans);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:32px 32px}
+a{color:var(--blue)}
+.wrap{max-width:1080px;margin:0 auto;padding:0 max(16px,env(safe-area-inset-left,0px))}
+header.top{padding-block:56px 32px}
+.eyebrow{font:500 12px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--blue)}
+h1{font-size:clamp(30px,6vw,52px);line-height:1.15;margin:14px 0 16px;text-wrap:balance;letter-spacing:-.02em}
+h1 mark{background:linear-gradient(transparent 62%,var(--mark) 62%);color:inherit}
+.lead{max-width:62ch;color:var(--muted);font-size:18px;margin:0}
+nav.toc{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--paper) 92%,transparent);backdrop-filter:blur(6px);border-block:1px solid var(--line)}
+nav.toc .wrap{display:flex;gap:6px;overflow-x:auto;padding-block:8px}
+nav.toc a{white-space:nowrap;text-decoration:none;color:var(--ink);font-size:14px;padding:6px 12px;border-radius:999px}
+nav.toc a:hover{background:var(--blue-soft)}
+section{padding-block:56px 8px;scroll-margin-top:48px}
+h2{font-size:clamp(24px,4vw,32px);margin:0 0 6px;letter-spacing:-.01em;text-wrap:balance}
+.sub{color:var(--muted);margin:0 0 24px;max-width:66ch}
+.tag{font:500 12px var(--mono);color:var(--muted);letter-spacing:.08em}
+.grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:20px;min-width:0}
+.card h3{margin:0 0 6px;font-size:17px}
+.card p{margin:0;color:var(--muted);font-size:15px}
+.big{font:500 28px/1.2 var(--mono);color:var(--blue);margin-bottom:4px}
+.note{border-left:4px solid var(--mark);background:var(--card);padding:12px 16px;margin:20px 0;font-size:15px;border-radius:0 6px 6px 0}
+/* roadmap */
+.week{display:grid;grid-template-columns:76px 1fr;gap:16px;background:var(--card);border:1px solid var(--line);border-radius:6px;padding:16px 20px;margin-bottom:12px}
+.week .w{font:500 13px var(--mono);color:var(--blue);padding-top:3px}
+.week h3{margin:0 0 4px;font-size:17px}
+.week ul{margin:8px 0 0;padding:0;list-style:none;display:grid;gap:6px}
+.week label{display:flex;gap:10px;align-items:flex-start;cursor:pointer;font-size:15px}
+.week input{margin-top:6px;accent-color:var(--blue);width:16px;height:16px;flex:none}
+.week input:checked+span{color:var(--muted);text-decoration:line-through}
+.bar{height:10px;background:var(--line);border-radius:5px;overflow:hidden;margin:0 0 6px}
+.bar i{display:block;height:100%;width:0;background:var(--blue);transition:width .3s}
+.progress{font:500 13px var(--mono);color:var(--muted);margin-bottom:20px}
+/* tables */
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:6px;background:var(--card)}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:15px}
+th,td{padding:10px 14px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:500 12px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);background:var(--blue-soft)}
+tr:last-child td{border-bottom:0}
+td:first-child{font-weight:700;white-space:nowrap}
+code{font:14px var(--mono);background:var(--blue-soft);padding:1px 6px;border-radius:3px}
+/* glossary */
+.search{width:100%;max-width:420px;padding:10px 14px;font:inherit;border:1px solid var(--line);border-radius:6px;background:var(--card);color:var(--ink);margin-bottom:16px}
+.gl{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(280px,1fr))}
+.gl dl{margin:0}.gl .card{padding:14px 16px}
+.gl dt{font-weight:700}.gl dd{margin:2px 0 0;color:var(--muted);font-size:14.5px}
+/* quiz */
+.q{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:20px;margin-bottom:16px}
+.q .n{font:500 12px var(--mono);color:var(--blue);letter-spacing:.1em}
+.q p{margin:6px 0 12px;font-weight:500}
+.opts{display:grid;gap:8px}
+.opt{display:flex;gap:10px;text-align:left;width:100%;padding:10px 14px;font:inherit;font-size:15px;color:var(--ink);background:transparent;border:1px solid var(--line);border-radius:6px;cursor:pointer}
+.opt:hover:not(:disabled){border-color:var(--blue);background:var(--blue-soft)}
+.opt:focus-visible,a:focus-visible,.btn:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.opt b{font-family:var(--mono);color:var(--muted)}
+.opt.ok{background:var(--ok-soft);border-color:var(--ok)}
+.opt.bad{background:var(--bad-soft);border-color:var(--bad)}
+.exp{margin-top:12px;font-size:14.5px;color:var(--muted);display:none}
+.q.done .exp{display:block}
+.score{position:sticky;bottom:0;margin-top:8px;background:var(--card);border:1px solid var(--line);border-radius:6px;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;font:500 14px var(--mono)}
+.btn{font:inherit;font-size:14px;padding:8px 16px;border-radius:6px;border:1px solid var(--blue);background:var(--blue);color:#fff;cursor:pointer}
+@media (prefers-color-scheme:dark){.btn{color:#0e1622}}
+/* decision list */
+.dec{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.dec div{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:12px 16px;font-size:15px;min-width:0}
+.dec b{display:block;color:var(--blue);font-family:var(--mono);font-size:13px}
+details{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:12px 18px;margin-bottom:10px}
+summary{cursor:pointer;font-weight:700}
+details p,details ul{color:var(--muted);font-size:15px;margin:8px 0 0}
+footer{padding-block:56px 80px;color:var(--muted);font-size:14px}
+@media (max-width:560px){.week{grid-template-columns:1fr;gap:4px}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.bar i{transition:none}}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <div class="eyebrow">Google Cloud · Professional Cloud Architect</div>
+  <h1>클라우드를 <mark>하나도 몰라도</mark><br>PCA를 향해 가는 8주</h1>
+  <p class="lead">용어부터 시작해서, 서비스를 고르는 기준을 익히고, 연습문제로 마무리합니다. 체크한 진행 상황은 이 브라우저에 저장됩니다.</p>
+</div></header>
+
+<nav class="toc"><div class="wrap">
+  <a href="#exam">시험 개요</a><a href="#roadmap">8주 로드맵</a><a href="#terms">기초 용어</a>
+  <a href="#services">서비스 치트시트</a><a href="#decide">선택 기준</a><a href="#quiz">연습문제</a>
+  <a href="#cases">케이스 스터디</a><a href="#tips">시험 전략</a><a href="#links">공식 자료</a>
+</div></nav>
+
+<main class="wrap">
+
+<section id="exam">
+  <div class="tag">01 / OVERVIEW</div>
+  <h2>시험은 이런 모양입니다</h2>
+  <p class="sub">PCA는 "서비스 사용법"보다 "상황에 맞는 설계 선택"을 묻는 시험입니다. 외우기보다 이유를 말할 수 있어야 합니다.</p>
+  <div class="grid">
+    <div class="card"><div class="big">2시간</div><h3>시험 시간</h3><p>객관식·복수선택 위주, 약 50~60문항.</p></div>
+    <div class="card"><div class="big">$200</div><h3>응시료</h3><p>서드파티 자료 기준. 국가·시기에 따라 달라질 수 있습니다.</p></div>
+    <div class="card"><div class="big">2년</div><h3>유효기간</h3><p>만료 전 갱신 시험(약 1시간, $100)을 볼 수 있습니다.</p></div>
+    <div class="card"><div class="big">케이스</div><h3>사례 문제</h3><p>가상 기업 사례를 읽고 설계를 고르는 문항이 섞여 있습니다.</p></div>
+  </div>
+  <div class="note">시험 버전과 케이스 스터디는 개정되는 경우가 있습니다. 응시 전에 반드시 <a href="https://cloud.google.com/learn/certification/cloud-architect" target="_blank" rel="noopener">공식 시험 가이드</a>에서 현재 도메인과 사례 목록을 확인하세요.</div>
+</section>
+
+<section id="roadmap">
+  <div class="tag">02 / ROADMAP</div>
+  <h2>8주 로드맵 (주 8~10시간 기준)</h2>
+  <p class="sub">항목을 끝낼 때마다 체크하세요. 새로고침해도 유지됩니다.</p>
+  <div class="bar" aria-hidden="true"><i id="pbar"></i></div>
+  <div class="progress" id="ptxt">0 / 0 완료</div>
+  <div id="weeks"></div>
+</section>
+
+<section id="terms">
+  <div class="tag">03 / GLOSSARY</div>
+  <h2>노베이스를 위한 기초 용어</h2>
+  <p class="sub">이 용어가 막히면 문제 자체가 읽히지 않습니다. 먼저 훑고 시작하세요.</p>
+  <input class="search" id="gs" type="search" placeholder="용어 검색 (예: VPC, 리전)" aria-label="용어 검색">
+  <div class="gl" id="gl"></div>
+</section>
+
+<section id="services">
+  <div class="tag">04 / CHEAT SHEET</div>
+  <h2>서비스 치트시트</h2>
+  <p class="sub">한 줄 정의만 먼저 외웁니다. 세부 옵션은 그 다음입니다.</p>
+  <div class="tw"><table>
+    <thead><tr><th>분류</th><th>서비스</th><th>한 줄 설명</th></tr></thead>
+    <tbody id="svc"></tbody>
+  </table></div>
+</section>
+
+<section id="decide">
+  <div class="tag">05 / DECISIONS</div>
+  <h2>"이럴 땐 이거" 선택 기준</h2>
+  <p class="sub">시험 문제의 대부분은 이 표를 변형한 것입니다.</p>
+  <div class="dec" id="dec"></div>
+</section>
+
+<section id="quiz">
+  <div class="tag">06 / PRACTICE</div>
+  <h2>연습문제 18문항</h2>
+  <p class="sub">직접 만든 입문용 문제입니다. 선택하면 바로 해설이 열립니다. 실제 시험 문제가 아닙니다.</p>
+  <div id="qs"></div>
+  <div class="score"><span id="sc">0 / 18 정답</span><button class="btn" id="reset" type="button">다시 풀기</button></div>
+</section>
+
+<section id="cases">
+  <div class="tag">07 / CASE STUDY</div>
+  <h2>케이스 스터디 읽는 법</h2>
+  <p class="sub">공식 사이트에서 사례 원문을 받아, 아래 5칸을 직접 채워 보세요.</p>
+  <details open><summary>1. 비즈니스 요구</summary><p>매출, 출시 속도, 글로벌 확장 등 "왜" 바꾸려 하는지부터 적습니다.</p></details>
+  <details><summary>2. 기술 요구</summary><p>가용성(SLA), 지연 시간, 확장성, 기존 시스템과의 연동 같은 숫자와 조건을 뽑습니다.</p></details>
+  <details><summary>3. 제약 조건</summary><p>규제(개인정보, 의료), 예산, 인력 부족, 데이터 위치 제한 등. 정답을 가르는 단서인 경우가 많습니다.</p></details>
+  <details><summary>4. 기존 환경</summary><p>온프레미스 서버, 기존 DB, 레거시 앱. 이전(마이그레이션) 방식이 여기서 정해집니다.</p></details>
+  <details><summary>5. 내가 고른 서비스와 이유</summary><p>"관리형 우선, 운영 부담 최소, 보안은 최소 권한" 원칙으로 고르고, 이유를 한 문장으로 적습니다.</p></details>
+</section>
+
+<section id="tips">
+  <div class="tag">08 / STRATEGY</div>
+  <h2>시험 전략</h2>
+  <div class="grid">
+    <div class="card"><h3>관리형 서비스 우선</h3><p>선택지 중 직접 운영하는 쪽과 관리형이 있으면 보통 관리형이 정답에 가깝습니다.</p></div>
+    <div class="card"><h3>조건 단어에 밑줄</h3><p>"최소 비용", "최소 운영", "글로벌", "강한 일관성" 같은 단어가 정답을 결정합니다.</p></div>
+    <div class="card"><h3>보안은 최소 권한</h3><p>넓은 기본 역할보다 좁은 사전 정의 역할, 서비스 계정 키보다 키 없는 방식이 맞습니다.</p></div>
+    <div class="card"><h3>모르면 소거</h3><p>조건에 어긋나는 선택지부터 지우면 보통 둘이 남습니다. 표시해 두고 넘어가세요.</p></div>
+  </div>
+</section>
+
+<section id="links">
+  <div class="tag">09 / RESOURCES</div>
+  <h2>공식 자료와 실습 환경</h2>
+  <div class="grid">
+    <a class="card" href="https://cloud.google.com/learn/certification/cloud-architect" target="_blank" rel="noopener"><h3>공식 시험 페이지</h3><p>시험 가이드, 도메인, 샘플 문제, 등록.</p></a>
+    <a class="card" href="https://www.cloudskillsboost.google/" target="_blank" rel="noopener"><h3>Google Cloud Skills Boost</h3><p>실습(랩)과 학습 경로. 클릭하며 배우기 좋습니다.</p></a>
+    <a class="card" href="https://cloud.google.com/architecture/framework" target="_blank" rel="noopener"><h3>Architecture Framework</h3><p>설계 원칙. 문제의 "좋은 설계" 기준이 여기서 나옵니다.</p></a>
+    <a class="card" href="https://cloud.google.com/free" target="_blank" rel="noopener"><h3>무료 체험·Free Tier</h3><p>직접 만들어 보는 연습용. 과금 알림을 꼭 설정하세요.</p></a>
+    <a class="card" href="https://cloud.google.com/docs" target="_blank" rel="noopener"><h3>공식 문서</h3><p>서비스별 "개념(Concepts)" 문서만 읽어도 충분합니다.</p></a>
+    <a class="card" href="https://cloud.google.com/products/calculator" target="_blank" rel="noopener"><h3>가격 계산기</h3><p>비용 비교 문제를 감 잡는 데 도움이 됩니다.</p></a>
+  </div>
+</section>
+
+</main>
+<footer><div class="wrap">비공식 학습 노트입니다. Google Cloud와 제휴 관계가 없으며, 시험 정보는 변경될 수 있으니 공식 페이지를 기준으로 하세요.</div></footer>
+
+<script>
+const weeks=[
+["1주","클라우드 기초","IaaS/PaaS/SaaS, 리전·존, 책임 공유 모델 이해|무료 계정을 만들고 콘솔 둘러보기|아래 '기초 용어' 전부 한 번 읽기"],
+["2주","컴퓨트와 컨테이너","Compute Engine으로 VM 한 대 띄우고 지우기|Cloud Run에 간단한 컨테이너 배포|GKE, App Engine, Cloud Functions 차이 정리"],
+["3주","스토리지와 데이터베이스","Cloud Storage 클래스 4종 비교|Cloud SQL, Spanner, Bigtable, Firestore 선택 기준 표 만들기|BigQuery에 샘플 데이터 올려 쿼리"],
+["4주","네트워크","VPC, 서브넷, 방화벽 규칙 직접 만들기|로드밸런서 종류 구분|Cloud VPN과 Interconnect 차이"],
+["5주","보안과 IAM","IAM 역할 3종(기본/사전정의/커스텀) 구분|서비스 계정과 최소 권한 실습|Organization Policy, VPC Service Controls, KMS 개념"],
+["6주","운영, 모니터링, 데이터 처리","Cloud Logging·Monitoring 보기|Pub/Sub, Dataflow, Dataproc 역할 정리|가용성·DR(RTO/RPO) 개념"],
+["7주","케이스 스터디와 마이그레이션","공식 케이스 스터디 전부 읽고 5칸 정리|온프레미스 이전 전략(Rehost, Replatform, Refactor)|비용 최적화 방법 정리"],
+["8주","모의고사와 오답 정리","공식 샘플 문제 풀기|이 사이트 연습문제 80% 이상 맞히기|틀린 개념을 한 줄로 요약해 다시 보기"]];
+const wk=document.getElementById('weeks');let tot=0;
+weeks.forEach((w,i)=>{const items=w[2].split('|');
+ wk.insertAdjacentHTML('beforeend',`<div class="week"><div class="w">${w[0]}</div><div><h3>${w[1]}</h3><ul>${items.map((t,j)=>{tot++;return`<li><label><input type="checkbox" data-k="w${i}_${j}"><span>${t}</span></label></li>`}).join('')}</ul></div></div>`)});
+function upd(){const c=document.querySelectorAll('#weeks input:checked').length;
+ document.getElementById('pbar').style.width=(c/tot*100)+'%';
+ document.getElementById('ptxt').textContent=c+' / '+tot+' 완료'}
+document.querySelectorAll('#weeks input').forEach(el=>{
+ try{el.checked=localStorage.getItem('pca_'+el.dataset.k)==='1'}catch(e){}
+ el.addEventListener('change',()=>{try{localStorage.setItem('pca_'+el.dataset.k,el.checked?'1':'0')}catch(e){}upd()})});
+upd();
+
+const terms=[
+["리전(Region)","데이터센터가 모여 있는 지리적 지역. 예: 서울(asia-northeast3)."],
+["존(Zone)","리전 안의 독립된 장애 영역. 여러 존에 나눠 두면 한 곳이 죽어도 버팁니다."],
+["VM(가상 머신)","클라우드에서 빌려 쓰는 가상 컴퓨터. Compute Engine이 이것을 제공합니다."],
+["컨테이너","앱과 실행 환경을 하나로 묶은 상자. 어디서나 같게 실행됩니다."],
+["Kubernetes","컨테이너 여러 개를 자동으로 배치·확장·복구하는 시스템. GKE는 그 관리형 버전입니다."],
+["서버리스","서버를 직접 관리하지 않고 코드만 올리는 방식. 쓴 만큼만 과금됩니다."],
+["VPC","클라우드 안의 나만의 가상 네트워크. Google의 VPC는 전역(Global)입니다."],
+["서브넷","VPC 안의 IP 주소 구획. 리전 단위로 만듭니다."],
+["방화벽 규칙","어떤 트래픽을 허용·차단할지 정하는 규칙."],
+["IAM","누가(주체) 무엇에(리소스) 어떤 권한(역할)을 갖는지 정하는 체계."],
+["서비스 계정","사람이 아니라 앱·VM이 쓰는 신원."],
+["조직·폴더·프로젝트","리소스 계층. 정책과 권한은 위에서 아래로 상속됩니다."],
+["SLA/SLO","서비스가 약속하는 가용성 수준. 예: 99.9%."],
+["RTO","장애 후 서비스를 복구하는 데 허용되는 최대 시간."],
+["RPO","장애 때 잃어도 되는 데이터의 최대 시간 범위."],
+["고가용성(HA)","한 부분이 고장 나도 서비스가 계속되도록 이중화하는 설계."],
+["오토스케일링","부하에 따라 서버 수를 자동으로 늘리고 줄이는 기능."],
+["온프레미스","회사가 직접 운영하는 자체 서버실·데이터센터."],
+["Lift & Shift","앱을 거의 안 고치고 그대로 클라우드로 옮기는 이전 방식(Rehost)."],
+["IaC","인프라를 코드로 정의해 자동 구축하는 방식. 예: Terraform."],
+["CI/CD","코드 변경을 자동으로 빌드·테스트·배포하는 파이프라인."],
+["암호화(저장/전송)","Google Cloud는 저장 데이터를 기본 암호화합니다. 키를 직접 관리하려면 Cloud KMS를 씁니다."],
+["공유 책임 모델","클라우드 사업자는 인프라를, 고객은 데이터·권한·설정을 책임진다는 구분."],
+["TCO","총 소유 비용. 서버 값뿐 아니라 운영 인력·전기·관리 비용까지 포함."]];
+const gl=document.getElementById('gl');
+function rg(q){q=(q||'').toLowerCase();gl.innerHTML=terms.filter(t=>!q||(t[0]+t[1]).toLowerCase().includes(q)).map(t=>`<div class="card"><dl><dt>${t[0]}</dt><dd>${t[1]}</dd></dl></div>`).join('')||'<p class="sub">검색 결과가 없습니다.</p>'}
+rg();document.getElementById('gs').addEventListener('input',e=>rg(e.target.value));
+
+const svc=[
+["컴퓨트","Compute Engine","VM. 가장 자유롭지만 운영 부담도 큽니다."],
+["컴퓨트","GKE","관리형 Kubernetes. Autopilot은 노드 관리까지 대신합니다."],
+["컴퓨트","Cloud Run","컨테이너를 서버리스로 실행. 요청 없으면 0까지 축소."],
+["컴퓨트","App Engine","코드를 올리면 돌아가는 PaaS."],
+["컴퓨트","Cloud Functions","이벤트에 반응하는 짧은 함수."],
+["스토리지","Cloud Storage","객체 저장소. Standard·Nearline·Coldline·Archive 클래스."],
+["스토리지","Persistent Disk","VM에 붙이는 블록 디스크."],
+["스토리지","Filestore","공유 파일 시스템(NFS)."],
+["DB","Cloud SQL","관리형 MySQL·PostgreSQL·SQL Server. 단일 리전 중심."],
+["DB","Cloud Spanner","전역 확장되는 강한 일관성 관계형 DB."],
+["DB","Bigtable","초대용량·저지연 NoSQL(와이드 컬럼). 시계열, IoT."],
+["DB","Firestore","문서형 NoSQL. 모바일·웹 앱 백엔드."],
+["DB","Memorystore","관리형 Redis·Memcached 캐시."],
+["분석","BigQuery","서버리스 데이터 웨어하우스. SQL로 페타바이트 분석."],
+["분석","Pub/Sub","비동기 메시징. 서비스 간 결합을 느슨하게."],
+["분석","Dataflow","스트림·배치 처리(Apache Beam), 서버리스."],
+["분석","Dataproc","관리형 Hadoop·Spark. 기존 하둡 이전에 적합."],
+["네트워크","Cloud Load Balancing","전역·리전 로드밸런서. 외부 Application LB는 전역 anycast IP."],
+["네트워크","Cloud CDN","엣지에서 콘텐츠를 캐시해 응답을 빠르게."],
+["네트워크","Cloud VPN / Interconnect","온프레미스 연결. VPN은 인터넷 위 암호화, Interconnect는 전용선."],
+["네트워크","Cloud DNS","관리형 DNS."],
+["보안","Cloud IAM","권한 관리의 중심."],
+["보안","Cloud KMS","암호화 키 관리."],
+["보안","Secret Manager","API 키·비밀번호 보관."],
+["보안","VPC Service Controls","관리형 서비스 주변에 보안 경계를 쳐 데이터 유출 방지."],
+["보안","Sensitive Data Protection(DLP)","민감 정보 탐지·마스킹."],
+["운영","Cloud Logging / Monitoring","로그 수집, 지표·알림. Audit Logs로 '누가 무엇을 했나' 추적."],
+["운영","Cloud Build / Artifact Registry","빌드 자동화와 이미지·패키지 저장소."]];
+document.getElementById('svc').innerHTML=svc.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join('');
+
+const dec=[
+["전 세계 사용자 + 단일 IP","전역 외부 Application Load Balancer"],
+["관계형 + 전역 확장 + 강한 일관성","Cloud Spanner"],
+["일반 웹앱용 관계형 DB, 관리 최소","Cloud SQL (HA 구성)"],
+["페타바이트 SQL 분석","BigQuery"],
+["초당 수백만 쓰기, 시계열","Bigtable"],
+["컨테이너 서버리스, 0까지 축소","Cloud Run"],
+["컨테이너 세밀 제어, 복잡한 오케스트레이션","GKE"],
+["오래 보관, 거의 안 읽음","Cloud Storage Archive / Coldline"],
+["내결함성 배치 작업 비용 절감","Spot VM"],
+["온프레미스 연결: 빠르고 저렴하게","Cloud VPN (HA VPN)"],
+["온프레미스 연결: 안정적·대용량","Dedicated / Partner Interconnect"],
+["기존 Hadoop·Spark 최소 수정 이전","Dataproc"],
+["서비스 간 비동기 통신","Pub/Sub"],
+["조직 전체에 규칙 강제","Organization Policy"],
+["데이터 유출 방지 경계","VPC Service Controls"],
+["키 파일 없이 앱에 권한 부여","VM에 서비스 계정 연결, Workload Identity"]];
+document.getElementById('dec').innerHTML=dec.map(d=>`<div><b>${d[0]}</b>→ ${d[1]}</div>`).join('');
+
+/* 정답은 항상 첫 번째 보기로 적고, 화면에서는 고정 순서로 섞는다 */
+const Q=[
+["전 세계 사용자에게 하나의 IP 주소로 HTTP(S) 웹 서비스를 제공하고, 가까운 리전으로 트래픽을 보내야 합니다.","전역 외부 Application Load Balancer","리전 내부 Network Load Balancer","Cloud VPN","Cloud DNS 단독 사용","전역 외부 Application LB는 anycast IP 하나로 사용자를 가장 가까운 정상 백엔드로 보냅니다."],
+["1년에 한 번 열람할까 말까 한 규제 보관용 데이터를 가장 싸게 저장하려고 합니다.","Cloud Storage Archive 클래스","Cloud Storage Standard 클래스","Persistent Disk SSD","Memorystore","거의 읽지 않는 장기 보관은 Archive 클래스가 저장 비용이 가장 낮습니다. 대신 조회 비용·최소 보관 기간이 있습니다."],
+["여러 대륙에서 쓰는 금융 서비스. 관계형 스키마, 강한 일관성, 수평 확장이 모두 필요합니다.","Cloud Spanner","Cloud SQL","Bigtable","Firestore","Spanner는 전역 분산과 강한 일관성을 갖춘 관계형 DB입니다. Cloud SQL은 이 규모의 수평 확장에 한계가 있습니다."],
+["서버를 관리하지 않고 페타바이트급 로그를 SQL로 분석하고 싶습니다.","BigQuery","Cloud SQL","Dataproc 클러스터 직접 운영","Compute Engine에 직접 설치한 DB","BigQuery는 서버리스 데이터 웨어하우스입니다."],
+["개발자 그룹에게 프로젝트의 Cloud Storage 객체만 읽게 하려 합니다. 가장 적절한 방법은?","그룹에 Storage Object Viewer 역할을 필요한 범위에만 부여","각 개발자에게 Editor 기본 역할 부여","프로젝트 Owner 역할 부여","공용 계정 하나를 공유","그룹 단위로, 좁은 사전 정의 역할을, 가장 작은 범위에 부여하는 것이 최소 권한 원칙입니다."],
+["HTTP 요청을 처리하는 무상태 컨테이너 앱을 클러스터 관리 없이 운영하고, 트래픽이 없을 땐 비용이 0이었으면 합니다.","Cloud Run","GKE Standard","Compute Engine 관리형 인스턴스 그룹","Dataproc","Cloud Run은 서버리스 컨테이너 플랫폼이며 요청이 없으면 인스턴스가 0으로 줄 수 있습니다."],
+["주문 서비스가 결제·배송 서비스에 이벤트를 전달합니다. 한쪽이 느려져도 다른 쪽에 영향이 없어야 합니다.","Pub/Sub로 비동기 전달","서비스끼리 직접 동기 호출","공유 디스크에 파일 쓰기","Cloud DNS 레코드 사용","메시지 큐를 사이에 두면 결합이 느슨해지고 한쪽 지연이 전파되지 않습니다."],
+["온프레미스와 Google Cloud를 며칠 안에 저렴하게 암호화 연결해야 합니다.","HA Cloud VPN","Dedicated Interconnect","물리 전용선 신규 설치","공개 IP로 평문 통신","VPN은 인터넷 위에 암호화 터널을 빠르게 만듭니다. Interconnect는 설치 기간과 비용이 큽니다."],
+["VM 위 앱이 Cloud Storage에 접근해야 합니다. 보안상 가장 좋은 방법은?","VM에 서비스 계정을 연결해 키 파일 없이 사용","서비스 계정 키(JSON)를 코드에 포함","개인 계정 비밀번호 사용","버킷을 전체 공개","키 파일은 유출 위험이 있어, 연결된 서비스 계정이나 Workload Identity 같은 키 없는 방식을 권장합니다."],
+["Cloud SQL 데이터베이스가 한 존의 장애에도 자동으로 계속 동작해야 합니다.","HA(고가용성) 구성 사용: 다른 존에 대기 인스턴스","읽기 전용 복제본만 추가","매일 수동 백업만 수행","더 큰 머신 타입으로 변경","HA 구성은 다른 존의 대기 인스턴스로 자동 장애 조치합니다. 읽기 복제본은 부하 분산용이며 자동 장애 조치 목적이 아닙니다."],
+["중단되어도 다시 실행하면 되는 대규모 배치 계산의 비용을 줄이고 싶습니다.","Spot VM 사용","항상 켜진 온디맨드 VM","전용 물리 서버(Sole-tenant)","Persistent Disk 확장","Spot VM은 큰 할인을 받는 대신 언제든 회수될 수 있어 내결함성 작업에 적합합니다."],
+["조직 안 모든 프로젝트에서 특정 리전 밖에 리소스를 만들 수 없게 막고 싶습니다.","Organization Policy의 리소스 위치 제한","프로젝트마다 구두로 안내","VPC 방화벽 규칙","Cloud Monitoring 알림","Organization Policy로 조직·폴더 수준에서 제약을 강제할 수 있고 하위로 상속됩니다."],
+["'누가 언제 어떤 리소스를 수정했는지' 추적하려고 합니다. 기본으로 항상 켜져 있는 로그는?","Cloud Audit Logs의 관리자 활동 로그","VPC Flow Logs","애플리케이션 stdout 로그","Cloud Trace","관리자 활동 감사 로그는 리소스 구성 변경을 기록하며 비활성화할 수 없습니다."],
+["온프레미스 Hadoop·Spark 작업을 코드 변경을 최소화하며 옮기려 합니다.","Dataproc","BigQuery로 전면 재작성","Cloud Functions","Firestore","Dataproc은 관리형 Hadoop·Spark라 기존 작업을 거의 그대로 옮길 수 있습니다."],
+["Kubernetes를 쓰되 노드 운영 부담을 줄이고 싶습니다.","GKE Autopilot","Compute Engine에 직접 설치한 Kubernetes","Cloud Functions","Filestore","Autopilot은 노드 프로비저닝·관리를 Google이 맡습니다."],
+["고객 데이터 속 주민번호·카드번호를 찾아 마스킹하고 싶습니다.","Sensitive Data Protection(Cloud DLP)","Cloud CDN","Cloud NAT","Cloud Build","Sensitive Data Protection(구 Cloud DLP)은 민감 정보를 탐지하고 마스킹·토큰화합니다."],
+["BigQuery와 Cloud Storage의 데이터가 승인된 경계 밖으로 복사·유출되지 않도록 하고 싶습니다.","VPC Service Controls","Cloud Armor","Cloud CDN","Cloud DNS","VPC Service Controls는 관리형 서비스 주변에 서비스 경계를 만들어 유출을 막습니다. Cloud Armor는 웹 공격(DDoS, WAF) 방어용입니다."]
+];
+Q.push(["IoT 센서에서 초당 수십만 건씩 들어오는 시계열 데이터를 낮은 지연으로 저장·조회해야 합니다.","Bigtable","Cloud SQL","Cloud Storage Archive","Memorystore","Bigtable은 대용량·저지연 쓰기와 시계열 조회에 맞는 와이드 컬럼 NoSQL입니다."]);
+const qs=document.getElementById('qs');let got=0,ans=0;
+function build(){qs.innerHTML='';got=0;ans=0;sc();
+ Q.forEach((q,i)=>{
+  const o=[q[1],q[2],q[3],q[4]].map((t,k)=>({t,c:k===0}));
+  const r=(i*7+3)%4; const sh=o.slice(r).concat(o.slice(0,r)); /* 정답 위치를 문항마다 바꿈 */
+  const d=document.createElement('div');d.className='q';
+  d.innerHTML=`<div class="n">Q${String(i+1).padStart(2,'0')}</div><p>${q[0]}</p><div class="opts">${sh.map((x,k)=>`<button type="button" class="opt" data-c="${x.c?1:0}"><b>${'ABCD'[k]}</b><span>${x.t}</span></button>`).join('')}</div><div class="exp"><b>해설</b> ${q[5]}</div>`;
+  d.querySelectorAll('.opt').forEach(b=>b.addEventListener('click',()=>{
+   if(d.classList.contains('done'))return;d.classList.add('done');ans++;
+   if(b.dataset.c==='1'){b.classList.add('ok');got++}else{b.classList.add('bad');d.querySelector('[data-c="1"]').classList.add('ok')}
+   d.querySelectorAll('.opt').forEach(x=>x.disabled=true);sc()}));
+  qs.appendChild(d)})}
+function sc(){document.getElementById('sc').textContent=got+' / '+Q.length+' 정답 · '+ans+'문항 풀이'}
+document.getElementById('reset').addEventListener('click',()=>{build();document.getElementById('quiz').scrollIntoView()});
+build();
+document.querySelector('#quiz h2').textContent='연습문제 '+Q.length+'문항';
+</script>
+</body>
+</html>
